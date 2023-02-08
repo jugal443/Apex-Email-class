@@ -1,0 +1,36 @@
+/*********************************************************************************************************
+Class Name      : emailSending 
+Description     : This class will e sending email
+Created By      : Jugal Sheoran
+Created Date    : Oct 03, 2022
+Modification Log:
+--------------------------------------------------------------------------------------------------------------
+Developer                   Date                   Description
+--------------------------------------------------------------------------------------------------------------
+Jugal Sheoran               Oct 03, 2022            Initial Version
+**********************************************************************************************************/
+
+public class emailSending {
+
+    public void sendMail(String messageBody){
+       Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+        
+        List<String> ls = new List<String>{'jsheoran@dminc.com'};
+
+        message.ToAddresses = ls;
+
+        message.Subject = 'MART_Log_Cleaner_Batch has run';
+
+        message.PlainTextBody = messageBody+'MART_Log_Cleaner_Batch has run logs proccessed';
+
+        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>{message};
+
+        List<Messaging.SendEmailResult> results = Messaging.sendEmail(messages);
+        if (results[0].success) {
+            System.debug('The email was sent successfully.');
+        } 
+        else {
+            System.debug('The email failed to send: '+ results[0].errors[0].message);
+        }
+    }
+}
